@@ -17,9 +17,6 @@
         </form>
 
         <?php
-        // Start session before including process_guess.php
-        session_start();
-
         // Include the PHP logic
         ob_start();    // Use output buffering
         include 'process_guess.php';
