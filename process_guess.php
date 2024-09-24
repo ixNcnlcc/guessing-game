@@ -1,6 +1,5 @@
 <?php
-// Remove or comment out the session_start() because the session is already started in index.php
-// session_start();
+session_start();
 
 // Initialize session variables if not already set
 if (!isset($_SESSION['target_number'])) {
