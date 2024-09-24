@@ -7,9 +7,9 @@
 
         <form method="post">
             <label for="guess">Enter your guess (between 1 and 100):</label>
-            <!-- Add value attribute to keep user input -->
+            <!-- ใช้ค่า $_POST['guess'] เก็บค่า input ของผู้ใช้ -->
             <input type="number" id="guess" name="guess" min="1" max="100" step="1" required 
-            value="<?php echo isset($_SESSION['guess']) ? $_SESSION['guess'] : ''; ?>">
+            value="<?php if (isset($_POST['guess'])) echo $_POST['guess']; ?>">
             
             <input type="submit" value="Submit">
             <!-- Add a Give up button -->
@@ -17,6 +17,9 @@
         </form>
 
         <?php
+        // Start session before including process_guess.php
+        session_start();
+
         // Include the PHP logic
         ob_start();    // Use output buffering
         include 'process_guess.php';
