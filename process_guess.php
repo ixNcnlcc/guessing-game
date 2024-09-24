@@ -1,5 +1,6 @@
 <?php
-session_start();
+// Remove or comment out the session_start() because the session is already started in index.php
+// session_start();
 
 // Initialize session variables if not already set
 if (!isset($_SESSION['target_number'])) {
@@ -11,8 +12,18 @@ if (!isset($_SESSION['target_number'])) {
 $target_number = $_SESSION['target_number'];
 $guesses = $_SESSION['guesses'];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Check if the user clicked the "Give up" button
+if (isset($_POST['give_up'])) {
+    $message = "You gave up! The correct number was $target_number.";
+    session_unset(); // Unset all session variables
+    session_destroy(); // Destroy the session
+} else if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $guess = isset($_POST['guess']) ? (int)$_POST['guess'] : null;
+
+    // Store the current guess in the session to repopulate the input field
+    $_SESSION['guess'] = $guess;
+
+    // Increment the number of guesses
     $guesses++;
 
     if ($guess === $target_number) {
@@ -32,5 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Return the message to be displayed
 if (isset($message)) {
     echo $message;
+}
+
+// Display the number of guesses
+if (isset($_SESSION['guesses']) && $_SESSION['guesses'] > 0) {
+    echo "<p>You already guessed {$_SESSION['guesses']} times.</p>";
 }
 ?>
